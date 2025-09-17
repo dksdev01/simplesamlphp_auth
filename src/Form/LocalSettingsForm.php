@@ -4,6 +4,8 @@ namespace Drupal\simplesamlphp_auth\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\Role;
+use Drupal\user\RoleInterface;
 
 /**
  * Form builder for the simplesamlphp_auth local settings form.
@@ -29,6 +31,12 @@ class LocalSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('simplesamlphp_auth.settings');
+    $roles = array_map(function (RoleInterface $role) {
+      return $role->label();
+    }, Role::loadMultiple());
+
+    // Not to include anonymous user role in the options.
+    unset($roles[RoleInterface::ANONYMOUS_ID]);
 
     $form['authentication'] = [
       '#type' => 'fieldset',
@@ -50,7 +58,7 @@ class LocalSettingsForm extends ConfigFormBase {
     $form['authentication']['allow_default_login_roles'] = [
       '#type' => 'checkboxes',
       '#size' => 3,
-      '#options' => array_map('\Drupal\Component\Utility\Html::escape', user_role_names(TRUE)),
+      '#options' => $roles,
       '#multiple' => TRUE,
       '#title' => $this->t('Which ROLES should be allowed to login with local accounts?'),
       '#default_value' => $config->get('allow.default_login_roles'),
