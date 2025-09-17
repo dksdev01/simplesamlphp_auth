@@ -218,7 +218,7 @@ class SimplesamlphpDrupalAuth {
         $account = $this->externalauth->register($authname, 'simplesamlphp_auth');
       }
       catch (\Exception $ex) {
-        watchdog_exception('simplesamlphp_auth', $ex);
+        $this->logger->error($ex);
         $this->messenger
           ->addMessage($this->t('Error registering user: An account with this username already exists.'), 'error');
       }
