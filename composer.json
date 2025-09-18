@@ -6,7 +6,7 @@
     "homepage": "https://www.drupal.org/project/simplesamlphp_auth",
     "require": {
         "drupal/externalauth": "^1.1 || ^2.0",
-        "dksdev01/simplesamlphp": "^1.19 || ^2.3.5 || dev-simplesamlphp-2.5",
+        "simplesamlphp/simplesamlphp": "^1.19 || ^2.3.5 || dev-simplesamlphp-2.5",
         "drupal/core": "^9.4 || ^10 || ^11"
     },
     "config": {
